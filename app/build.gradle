@@ -74,4 +74,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
     implementation "androidx.work:work-rxjava2:$work_version"
 
+    //coroutine
+    implementation "androidx.room:room-ktx:2.2.3"
+
 }

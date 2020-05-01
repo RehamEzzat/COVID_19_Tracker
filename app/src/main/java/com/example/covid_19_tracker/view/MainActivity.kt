@@ -25,5 +25,34 @@ class MainActivity : AppCompatActivity() {
             .build()*/
         /*val re = PeriodicWorkRequestBuilder<RequestAPIWorker>(16, TimeUnit.MINUTES).build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork("request", ExistingPeriodicWorkPolicy.KEEP, re)*/
+
+
+
+       /* Aml
+        val db = LocalDatabase.getDataBase(this)
+        var countryDao = db.countryDao()
+        var countryModel = CountryModel("Egypt" , 500 ,100,200 ,20)
+        var countryModel1 = CountryModel("Egypt1" , 500 ,100,200 ,20)
+        var countryModel2 = CountryModel("Egypt2" , 500 ,100,200 ,20)
+        var countryModel3 = CountryModel("Egypt3" , 500 ,100,200 ,20)
+
+        GlobalScope.launch {
+            countryDao.insert(countryModel)
+            countryDao.insert(countryModel1)
+            countryDao.insert(countryModel2)
+            countryDao.insert(countryModel3)
+
+            val data = countryDao.getAll()
+            data.forEach {
+                println(it)
+                Log.e(
+                    "query", it.countryName + it.newCases
+                            + it.confirmedCases
+                )
+            }
+        }
+      */
+
+
     }
 }
