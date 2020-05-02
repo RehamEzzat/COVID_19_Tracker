@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.UpdateIntervalActivity"/>
-        <activity android:name=".notification.Notification"/>
+
+        <activity android:name=".notification.MyNotification"/>
+
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -17,6 +17,7 @@ import com.example.covid_19_tracker.model.Repository
 import com.example.covid_19_tracker.model.WorldStatus
 import java.util.concurrent.TimeUnit
 
+
 class CountriesListViewModel(application: Application) : AndroidViewModel(application) {
     /*var countriesStatus : MutableLiveData<List<CountryStatus>> = MutableLiveData()
         get() {
