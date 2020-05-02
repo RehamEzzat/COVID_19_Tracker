@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".notification.Notification">
+    tools:context=".notification.MyNotification">
 
     <Button
         android:id="@+id/button2"
         android:layout_width="143dp"
         android:layout_height="59dp"
         android:text="Send Notification"
+        android:onClick="sendNotification"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
