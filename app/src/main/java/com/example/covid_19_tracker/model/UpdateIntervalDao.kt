@@ -1,6 +1,6 @@
 package com.example.covid_19_tracker.model
 
-class UpdateIntervalDAO {
+class UpdateIntervalDao {
     //change shared preferences
     //get from shared preferences
 }
