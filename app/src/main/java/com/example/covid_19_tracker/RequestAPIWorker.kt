@@ -25,6 +25,19 @@ class RequestAPIWorker(appContext : Context, workerParams : WorkerParameters) : 
                 Log.e("ERROR", it.message)
             })
 
+        RetrofitClient
+            .getInstance()
+            .getRetrofitClientInterface()!!
+            .getWorldStatus()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                //Update local data source
+
+            },{
+                Log.e("ERROR", it.message)
+            })
+
         return Result.success()
     }
 }

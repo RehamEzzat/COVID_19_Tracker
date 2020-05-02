@@ -26,5 +26,7 @@ class CountriesListAdapter(private val countriesStatus : List<CountryStatus>)  :
 
     override fun onBindViewHolder(holder: CountriesListViewHolder, position: Int) {
         holder.itemView.countryNameTextView.text = countriesStatus[position].country
+
+
     }
 }
