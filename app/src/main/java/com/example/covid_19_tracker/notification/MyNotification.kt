@@ -66,7 +66,7 @@ class MyNotification : AppCompatActivity() {
                 channelID)
                 .setContentTitle("New Information")
                 .setContentText("New Information Related to cases at COVID_19")
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.ic_virus)
                 .setChannelId(channelID)
                 .setContentIntent(pendingIntent)
                 .build()
@@ -74,7 +74,7 @@ class MyNotification : AppCompatActivity() {
              notification = Notification.Builder(this)
                 .setContentTitle("New Information")
                 .setContentText("New Information Related to cases at COVID_19")
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.ic_virus)
 
                 .setContentIntent(pendingIntent)
                 .build()

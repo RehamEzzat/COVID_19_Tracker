@@ -11,17 +11,23 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="6">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,44 +36,80 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/updateIntervalTitleTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_marginTop="10dp"
+                    android:text="@string/update_interval_title"
+                    android:textColor="@color/darkPurple"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/updateIntervalDetailsTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_marginTop="10dp"
+                    android:text="@string/update_interval_details"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="4"
                 android:checkedButton="@+id/first"
                 android:orientation="vertical">
 
                 <RadioButton
-                    android:id="@+id/second"
+                    android:id="@+id/firstIntervalRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="item 2" />
+                    android:text="@string/one_hour_interval"
+                    android:textSize="16sp"
+                    android:buttonTint="@color/semiDarkPurple"
+                    android:onClick="onRadioButtonClicked"/>
 
                 <RadioButton
-                    android:id="@+id/third"
+                    android:id="@+id/secondIntervalRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="item 2" />
+                    android:text="@string/two_hours_interval"
+                    android:textSize="16sp"
+                    android:buttonTint="@color/semiDarkPurple"
+                    android:onClick="onRadioButtonClicked"/>
+
+                <RadioButton
+                    android:id="@+id/thirdIntervalRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/five_hours_interval"
+                    android:textSize="16sp"
+                    android:buttonTint="@color/semiDarkPurple"
+                    android:onClick="onRadioButtonClicked"/>
+
+                <RadioButton
+                    android:id="@+id/forthIntervalRB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/one_day_interval"
+                    android:textSize="16sp"
+                    android:buttonTint="@color/semiDarkPurple"
+                    android:onClick="onRadioButtonClicked"/>
             </RadioGroup>
 
             <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
+                android:id="@+id/updateIntervalBTN"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:gravity="center"
+                android:text="@string/save_update_interval" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

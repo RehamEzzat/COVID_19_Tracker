@@ -10,9 +10,17 @@ import com.example.covid_19_tracker.RequestAPIWorker
 import com.example.covid_19_tracker.model.Repository
 import java.util.concurrent.TimeUnit
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class UpdateIntervalViewModel (application: Application) : AndroidViewModel(application){
     private val repository: Repository by lazy {
         Repository(application)
+    }
+
+    fun getUpdateInterval(): Long{
+        return repository.getUpdateInterval()
+    }
+
+    fun modifyUpdateInterval(numOfHours: Long){
+        repository.modifyUpdateInterval(numOfHours)
     }
 
     private val periodicWorkRequest : PeriodicWorkRequest by lazy {
@@ -20,11 +28,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             repository.getUpdateInterval(), TimeUnit.HOURS).build()
     }
 
-    fun loadCountriesStatus(){
+    fun updateCountriesStatus(){
         WorkManager
             .getInstance(getApplication())
-            .enqueueUniquePeriodicWork("request", ExistingPeriodicWorkPolicy.KEEP, periodicWorkRequest)
+            .enqueueUniquePeriodicWork("request", ExistingPeriodicWorkPolicy.REPLACE, periodicWorkRequest)
     }
-
-
 }

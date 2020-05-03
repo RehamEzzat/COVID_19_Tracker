@@ -2,6 +2,7 @@ package com.example.covid_19_tracker.model
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.example.covid_19_tracker.R
 import com.example.covid_19_tracker.network.RetrofitClient
 import com.example.covid_19_tracker.network.RetrofitClientInterface
 import io.reactivex.Single
@@ -45,5 +46,19 @@ class Repository(var context: Context) {
 
     fun insertLocalWorldStatus(worldStatus: WorldStatus){
         db.worldStatusDao().insert(worldStatus)
+    }
+
+    fun getUpdateInterval(): Long{
+        val sharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        val defaultUpdateInterval: Long = 2
+        return sharedPreferences.getLong(context.getString(R.string.update_interval_key), defaultUpdateInterval)
+    }
+
+    fun modifyUpdateInterval(newUpdateInterval: Long){
+        val sharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()){
+            putLong(context.getString(R.string.update_interval_key), newUpdateInterval)
+            commit()
+        }
     }
 }

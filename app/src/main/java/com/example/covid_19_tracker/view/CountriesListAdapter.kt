@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.covid_19_tracker.R
 import com.example.covid_19_tracker.model.CountryStatus
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.row.view.*
 
 
-class CountriesListAdapter(private val countriesStatuses : List<CountryStatus>)  : RecyclerView.Adapter<CountriesListAdapter.CountriesListViewHolder>(){
+class CountriesListAdapter(private val countriesStatuses : List<CountryStatus>,
+                           private val countryStatusNotificationListner: CountriesListFragment.CountryStatusNotificationListner)  : RecyclerView.Adapter<CountriesListAdapter.CountriesListViewHolder>(){
 
     class CountriesListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     private val TAG = "CountriesListAdapter"
@@ -27,11 +29,22 @@ class CountriesListAdapter(private val countriesStatuses : List<CountryStatus>) 
 
     override fun onBindViewHolder(holder: CountriesListViewHolder, position: Int) {
         holder.itemView.countryNameTextView.text = countriesStatuses[position].country
+        Picasso.get()
+            .load(countriesStatuses[position].flagUrl)
+            .into(holder.itemView.flagImageView)
+
+        holder.itemView.notificationButton.isChecked = countriesStatuses[position].isSubscriber
+
         holder.itemView.notificationButton.setOnCheckedChangeListener { checkBox, isChecked ->
-            if(isChecked) //subscribe (update database)
+            if(isChecked) { //subscribe (update database)
                 Log.i(TAG, "notificationButton")
-            else //unsubscribe (update database)
+                countriesStatuses[position].isSubscriber = true
+            }
+            else {  //unsubscribe (update database)
                 Log.i(TAG, "notificationButton not checked")
+                countriesStatuses[position].isSubscriber = false
+            }
+            countryStatusNotificationListner.subscribeCountryStatus(countriesStatuses[position])
         }
         holder.itemView.setOnClickListener {
             /*Aml*/

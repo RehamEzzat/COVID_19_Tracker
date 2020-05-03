@@ -1,5 +1,6 @@
 package com.example.covid_19_tracker.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -21,6 +22,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
+    private val TAG = "MainActivity"
     private var mainViewModel: MainViewModel? = null
     private val fragmentManager: FragmentManager by lazy {
         supportFragmentManager
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        //mainViewModel!!.loadCountriesStatus()
 
         fragmentTransaction = fragmentManager.beginTransaction()
         if(fragmentManager.findFragmentByTag("WorldFragment") == null){
@@ -67,7 +71,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        mainViewModel!!.loadCountriesStatus()
+        //Log.i(TAG, "*********************"+mainViewModel!!.getUpdateInterval().toString())
+        //mainViewModel!!.modifyUpdateInterval(1)
+        //Log.i(TAG, "*********************"+mainViewModel!!.getUpdateInterval().toString())
+
         /*toggleButton.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
 
             if(checkedId == worldStatusButton.id && isChecked){
@@ -121,7 +128,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // GoToSettingsActivity
+        val intent = Intent(this, UpdateIntervalActivity::class.java)
+        startActivity(intent)
         return super.onOptionsItemSelected(item)
     }
 
