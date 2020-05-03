@@ -2,6 +2,10 @@ package com.example.covid_19_tracker.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
 import com.example.covid_19_tracker.R
@@ -55,4 +59,9 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
+
+
+
 }
