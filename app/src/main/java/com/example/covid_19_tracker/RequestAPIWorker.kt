@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.*
 import com.example.covid_19_tracker.model.CountryStatus
+import com.example.covid_19_tracker.model.NotificationService
 import com.example.covid_19_tracker.model.Repository
 import com.example.covid_19_tracker.network.RetrofitClient
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,6 +16,10 @@ class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters
 
     private val repository: Repository by lazy {
         Repository(appContext)
+    }
+
+    private val notificationService: NotificationService by lazy {
+        NotificationService(appContext)
     }
 
     override fun doWork(): Result {
@@ -30,10 +35,11 @@ class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters
                     newCountryStatus.flagUrl = newCountryStatus.countryInfo!!.flag
                     if(oldCountryStatus != null) {
                         newCountryStatus.isSubscriber = oldCountryStatus.isSubscriber
+                        /*if(newCountryStatus.country == "Albania")
+                            newCountryStatus.todayCases = 10*/
                         if (oldCountryStatus.isSubscriber && isModifiedCountryStatus(newCountryStatus, oldCountryStatus)) {
                             //send notification(ex: egypt has updates)
-                            /*Aml*/
-                            /*Aml*/
+                            notificationService.sendNotification()
                             repository.updateLocalCountryStatus(newCountryStatus)
                         }
                     }else{
