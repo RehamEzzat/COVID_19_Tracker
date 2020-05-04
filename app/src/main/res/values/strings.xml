@@ -12,4 +12,19 @@
     <string name="five_hours_interval">5 hours</string>
     <string name="one_day_interval">24 hours</string>
     <string name="save_update_interval">Save changes</string>
+    <string name="country_new_cases">New Cases</string>
+    <string name="country_recovered_cases">Recovered Cases</string>
+    <string name="country_active_cases">Active Cases</string>
+    <string name="country_death_cases">Death Cases</string>
+    <string name="world_today">Today</string>
+    <string name="world_today_new_cases">New Cases</string>
+    <string name="world_today_deaths">Deaths</string>
+    <string name="world_total">Total</string>
+    <string name="world_total_cases">Cases</string>
+    <string name="world_total_deaths">Deaths</string>
+    <string name="world_total_active">Active</string>
+    <string name="world_total_critical">Critical</string>
+    <string name="world_total_recovered">Recovered</string>
+    <string name="world_total_tests">Tests</string>
+    <string name="world_note">Number of affected countries is </string>
 </resources>

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        //mainViewModel!!.loadCountriesStatus()
+        mainViewModel!!.loadCountriesStatus()
 
         fragmentTransaction = fragmentManager.beginTransaction()
         if(fragmentManager.findFragmentByTag("WorldFragment") == null){

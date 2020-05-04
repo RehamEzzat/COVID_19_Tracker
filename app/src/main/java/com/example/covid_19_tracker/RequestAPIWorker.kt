@@ -30,15 +30,10 @@ class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters
                     newCountryStatus.flagUrl = newCountryStatus.countryInfo!!.flag
                     if(oldCountryStatus != null) {
                         newCountryStatus.isSubscriber = oldCountryStatus.isSubscriber
-                        /*if(newCountryStatus.country == "Albania"){
-                            newCountryStatus.todayCases = 799
-                        }*/
-
                         if (oldCountryStatus.isSubscriber && isModifiedCountryStatus(newCountryStatus, oldCountryStatus)) {
                             //send notification(ex: egypt has updates)
-                            Log.i(TAG, newCountryStatus.country)
-                            Log.i(TAG, "i will notify you albania: " + newCountryStatus.todayCases.toString())
-
+                            /*Aml*/
+                            /*Aml*/
                             repository.updateLocalCountryStatus(newCountryStatus)
                         }
                     }else{

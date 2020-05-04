@@ -1,7 +1,6 @@
 package com.example.covid_19_tracker.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +34,17 @@ class WorldFragment : Fragment() {
 
         worldStatusViewModel!!.getWorldStatus().observe(this, Observer<WorldStatus>{
             if (it != null) {
-                textView11.text = it.affectedCountries.toString()
+                worldTodayNewCases.text = it.todayCases.toString()
+                worldTodayDeaths.text = it.todayDeaths.toString()
+
+                worldTotalCases.text = it.cases.toString()
+                worldTotalActive.text = it.active.toString()
+                worldTotalCritical.text = it.critical.toString()
+                worldTotalDeaths.text = it.deaths.toString()
+                worldTotalRecovered.text = it.recovered.toString()
+                worldTotalTests.text = it.tests.toString()
+
+                world_note.text = world_note.text.toString() + " " + it.affectedCountries.toString()
             }
         })
     }

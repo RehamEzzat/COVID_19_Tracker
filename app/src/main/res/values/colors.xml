@@ -12,5 +12,7 @@
     <color name="drakPink">#fc4568</color>
     <color name="green">#5edc1f</color>
     <color name="yellow">#f1c40f</color>
+    <color name="cardview_light">#FFFAFAFA</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

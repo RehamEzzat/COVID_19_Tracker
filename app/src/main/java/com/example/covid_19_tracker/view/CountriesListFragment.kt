@@ -70,10 +70,10 @@ class CountriesListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        countriesListViewModel!!.updateCountriesStatus()
+        //countriesListViewModel!!.updateCountriesStatus()
 
         countriesListViewModel!!.getCountriesStatus().observe(this, Observer<List<CountryStatus>>{
-            Log.i(TAG, "herer onStart: "+it.size)
+            //Log.i(TAG, "herer onStart: "+it.size)
             adapter = CountriesListAdapter(it, countryStatusNotificationListner)
             recyclerView!!.adapter = adapter
         })

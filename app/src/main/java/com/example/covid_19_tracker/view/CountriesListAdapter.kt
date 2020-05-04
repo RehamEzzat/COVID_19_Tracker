@@ -29,9 +29,15 @@ class CountriesListAdapter(private val countriesStatuses : List<CountryStatus>,
 
     override fun onBindViewHolder(holder: CountriesListViewHolder, position: Int) {
         holder.itemView.countryNameTextView.text = countriesStatuses[position].country
+
         Picasso.get()
             .load(countriesStatuses[position].flagUrl)
             .into(holder.itemView.flagImageView)
+
+        holder.itemView.countryNewCases.text = countriesStatuses[position].todayCases.toString()
+        holder.itemView.countryActiveCases.text = countriesStatuses[position].active.toString()
+        holder.itemView.countryDeathCases.text = countriesStatuses[position].deaths.toString()
+        holder.itemView.countryRecoveredCases.text = countriesStatuses[position].recovered.toString()
 
         holder.itemView.notificationButton.isChecked = countriesStatuses[position].isSubscriber
 
