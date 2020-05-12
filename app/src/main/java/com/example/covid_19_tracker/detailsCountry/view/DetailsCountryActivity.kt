@@ -30,8 +30,10 @@ class DetailsCountryActivity : AppCompatActivity() {
         val call = ret.getDetailsCountry("Egypt",30)
 
         var lineChartDownFill = this.lineChartView
-        var entryArrayList: ArrayList<Entry> = ArrayList()
-        var lineDataSet  = LineDataSet(entryArrayList, "This is y bill")
+        var casesEntryArrayList: ArrayList<Entry> = ArrayList()
+        var discoveredEntryArrayList: ArrayList<Entry> = ArrayList()
+        var deathesEntryArrayList: ArrayList<Entry> = ArrayList()
+        var lineDataSet  = LineDataSet(casesEntryArrayList, "This is y bill")
         var iLineDataSetArrayList: ArrayList<ILineDataSet> = ArrayList()
 
 
@@ -82,17 +84,38 @@ class DetailsCountryActivity : AppCompatActivity() {
                 var x =1F
                 var y = 1
                 var items = response.body()!!.timeline?.cases?.toSortedMap()
+                var dethItems = response.body()!!.timeline?.cases?.toSortedMap()
+                var recoveredItems = response.body()!!.timeline?.cases?.toSortedMap()
                 items?.forEach {
                         k, v ->
                     println("$k = $v")
-                   entryArrayList.add(Entry(x, v.toFloat()))
+                   casesEntryArrayList.add(Entry(x, v.toFloat()))
                     x++
                     y++
                     println("$x = $y")
 
                 }
 
-                 lineDataSet = LineDataSet(entryArrayList, "This is y bill")
+                dethItems?.forEach {
+                        k, v ->
+                    println("$k = $v")
+                    deathesEntryArrayList.add(Entry(x, v.toFloat()))
+                    x++
+                    y++
+                    println("$x = $y")
+
+                }
+                recoveredItems?.forEach {
+                        k, v ->
+                    println("$k = $v")
+                    discoveredEntryArrayList.add(Entry(x, v.toFloat()))
+                    x++
+                    y++
+                    println("$x = $y")
+
+                }
+
+                 lineDataSet = LineDataSet(casesEntryArrayList, "This is y bill")
                 //to remove the cricle from the graph
                 lineDataSet.setDrawCircles(false)
                 iLineDataSetArrayList.add(lineDataSet)
