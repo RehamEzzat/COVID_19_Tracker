@@ -1,7 +1,7 @@
 package com.example.covid_19_tracker.network
 
 
-//import com.example.covid_19_tracker.detailsCountry.model.DetailsCountry
+
 import okio.ByteString
 import retrofit2.Call
 import retrofit2.http.GET
