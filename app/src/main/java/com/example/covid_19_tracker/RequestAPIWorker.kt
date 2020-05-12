@@ -4,27 +4,64 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.example.covid_19_tracker.model.CountryStatus
+import com.example.covid_19_tracker.model.Repository
 import com.example.covid_19_tracker.network.RetrofitClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
-class RequestAPIWorker(appContext : Context, workerParams : WorkerParameters) : Worker(appContext, workerParams) {
+class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters) : Worker(appContext, workerParams) {
+    private val TAG = "RequestAPIWorker"
+
+    private val repository: Repository by lazy {
+        Repository(appContext)
+    }
+
     override fun doWork(): Result {
         Log.i("WORKER", "****new work****")
 
-        RetrofitClient
-            .getInstance()
-            .getRetrofitClientInterface()!!
-            .getCountriesStatus()
+        repository
+            .getRemoteCountriesStatus()
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                //Update local data source
-                Log.i("MainViewModel", it[0].country)
+                Log.i(TAG, "updating data: " + Date().toString())
+                it.forEach {newCountryStatus : CountryStatus ->
+                    val oldCountryStatus: CountryStatus = repository.getLocalCountryStatusByCountryName(newCountryStatus.country)
+                    if(oldCountryStatus != null) {
+                        newCountryStatus.isSubscriber = oldCountryStatus.isSubscriber
+                        if (oldCountryStatus.isSubscriber && isModifiedCountryStatus(newCountryStatus, oldCountryStatus)) {
+                            //send notification(ex: egypt has updates)
+                        }
+                    }
+                    newCountryStatus.flagUrl = newCountryStatus.countryInfo!!.flag
+                    repository
+                        .insertLocalCountryStatus(newCountryStatus)
+                }
+            },{
+                Log.e("ERROR", it.message)
+            })
+
+        repository
+            .getRemoteWorldStatus()
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                Log.i(TAG, "WorldStatus: "+it.affectedCountries.toString())
+                repository.insertLocalWorldStatus(it)
             },{
                 Log.e("ERROR", it.message)
             })
 
         return Result.success()
+    }
+
+    private fun isModifiedCountryStatus(newCountryStatus: CountryStatus, oldCountryStatus: CountryStatus): Boolean{
+        return when{
+            newCountryStatus.todayCases != oldCountryStatus.todayCases -> false
+            newCountryStatus.deaths != oldCountryStatus.deaths -> false
+            newCountryStatus.recovered != oldCountryStatus.recovered -> false
+            newCountryStatus.active != oldCountryStatus.active -> false
+            else -> true
+        }
     }
 }

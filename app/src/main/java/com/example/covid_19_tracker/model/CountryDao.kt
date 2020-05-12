@@ -1,5 +1,6 @@
 package com.example.covid_19_tracker.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import io.reactivex.Single
@@ -7,7 +8,7 @@ import io.reactivex.Single
 @Dao
 interface CountryDao {
     @Query("SELECT * FROM  country_cases")
-    fun getAll () :Single<List<CountryStatus>>
+    fun getAll () :LiveData<List<CountryStatus>>
 
     @Query("SELECT * FROM  country_cases where country like :country_name ")
     fun findCoutry (country_name : String) : CountryStatus
