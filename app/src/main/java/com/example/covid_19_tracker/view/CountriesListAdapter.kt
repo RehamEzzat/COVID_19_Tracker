@@ -1,22 +1,20 @@
 package com.example.covid_19_tracker.view
 
-import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.covid_19_tracker.R
-import com.example.covid_19_tracker.detailsCountry.view.DetailsCountryActivity
 import com.example.covid_19_tracker.model.CountryStatus
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.row.view.*
 
 
 
-class CountriesListAdapter(private val countriesStatuses : List<CountryStatus> , private val context : Context ,
-                           private val countryStatusNotificationListner: CountriesListFragment.CountryStatusNotificationListner)
+class CountriesListAdapter(private val countriesStatuses : List<CountryStatus> ,
+                           private val countryDetailsListener: CountriesListFragment.CountryDetailsListener,
+                           private val countryStatusNotificationListener: CountriesListFragment.CountryStatusNotificationListener)
     : RecyclerView.Adapter<CountriesListAdapter.CountriesListViewHolder>(){
 
 
@@ -55,13 +53,14 @@ class CountriesListAdapter(private val countriesStatuses : List<CountryStatus> ,
                 Log.i(TAG, "notificationButton not checked")
                 countriesStatuses[position].isSubscriber = false
             }
-            countryStatusNotificationListner.subscribeCountryStatus(countriesStatuses[position])
+            countryStatusNotificationListener.subscribeCountryStatus(countriesStatuses[position])
         }
         holder.itemView.setOnClickListener {
+            countryDetailsListener.viewCountryDetails(countriesStatuses[position].country)
             /*Aml*/
-            val intent = Intent(context , DetailsCountryActivity::class.java)
+            /*val intent = Intent(context , DetailsCountryActivity::class.java)
             intent.putExtra("country_name", countriesStatuses.get(position).country)
-            context.startActivity(intent)
+            context.startActivity(intent)*/
             /*Aml*/
         }
 

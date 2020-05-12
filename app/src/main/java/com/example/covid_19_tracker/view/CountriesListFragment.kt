@@ -1,5 +1,6 @@
 package com.example.covid_19_tracker.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.example.covid_19_tracker.R
 import com.example.covid_19_tracker.viewmodel.CountriesListViewModel
-import kotlinx.android.synthetic.main.fragment_countries_list.*
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.work.WorkInfo
+import com.example.covid_19_tracker.detailsCountry.view.DetailsCountryActivity
 import com.example.covid_19_tracker.model.CountryStatus
 
 /**
@@ -29,14 +30,26 @@ class CountriesListFragment : Fragment() {
     var adapter: CountriesListAdapter? = null
     var layoutManager: RecyclerView.LayoutManager? = null
 
-    val countryStatusNotificationListner = object : CountryStatusNotificationListner {
+    val countryStatusNotificationListener = object : CountryStatusNotificationListener {
         override fun subscribeCountryStatus(countryStatus: CountryStatus) {
             countriesListViewModel!!.updateCountryStatus(countryStatus)
         }
     }
 
-    interface CountryStatusNotificationListner{
+    val countryDetailsListener = object : CountryDetailsListener{
+        override fun viewCountryDetails(countryName: String) {
+            val intent = Intent(activity , DetailsCountryActivity::class.java)
+            intent.putExtra("country_name", countryName)
+            startActivity(intent)
+        }
+    }
+
+    interface CountryStatusNotificationListener{
         fun subscribeCountryStatus(countryStatus: CountryStatus)
+    }
+
+    interface CountryDetailsListener{
+        fun viewCountryDetails(countryName: String)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,10 +89,8 @@ class CountriesListFragment : Fragment() {
 
             //Log.i(TAG, "herer onStart: "+it.size)
             adapter = activity?.let { it1 ->
-                CountriesListAdapter(it,
-                    it1, countryStatusNotificationListner)
+                CountriesListAdapter(it, countryDetailsListener, countryStatusNotificationListener)
             }
-
             recyclerView!!.adapter = adapter
         })
     }
