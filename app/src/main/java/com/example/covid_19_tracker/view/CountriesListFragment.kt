@@ -86,11 +86,8 @@ class CountriesListFragment : Fragment() {
         //countriesListViewModel!!.updateCountriesStatus()
 
         countriesListViewModel!!.getCountriesStatus().observe(this, Observer<List<CountryStatus>>{
-
             //Log.i(TAG, "herer onStart: "+it.size)
-            adapter = activity?.let { it1 ->
-                CountriesListAdapter(it, countryDetailsListener, countryStatusNotificationListener)
-            }
+            adapter = CountriesListAdapter(it, countryDetailsListener, countryStatusNotificationListener)
             recyclerView!!.adapter = adapter
         })
     }

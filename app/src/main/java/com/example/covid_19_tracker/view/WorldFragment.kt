@@ -44,7 +44,8 @@ class WorldFragment : Fragment() {
                 worldTotalRecovered.text = it.recovered.toString()
                 worldTotalTests.text = it.tests.toString()
 
-                world_note.text = world_note.text.toString() + " " + it.affectedCountries.toString()
+                world_note.text = getString(R.string.world_note) + " " + it.affectedCountries.toString()
+
             }
         })
     }
