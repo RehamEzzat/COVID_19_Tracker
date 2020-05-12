@@ -26,8 +26,10 @@ class DetailsCountryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_country)
 
+
+        val countryName = intent.getStringExtra("country_name")
         val ret = RetrofitClient.getInstance().getRetrofitClientInterface()
-        val call = ret.getDetailsCountry("Egypt",30)
+        val call = ret.getDetailsCountry(countryName,30)
 
         var lineChartDownFill = this.lineChartView
         var casesEntryArrayList: ArrayList<Entry> = ArrayList()
