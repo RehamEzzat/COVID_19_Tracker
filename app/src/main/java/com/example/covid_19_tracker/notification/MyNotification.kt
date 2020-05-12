@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import com.example.covid_19_tracker.R
 import com.example.covid_19_tracker.view.MainActivity
 
@@ -61,20 +62,22 @@ class MyNotification : AppCompatActivity() {
         val channelID = "com.ITI.covid_19_tracker.news"
         val notification:Notification
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-             notification = Notification.Builder(
+             notification = NotificationCompat.Builder(
                 this@MyNotification,
                 channelID)
                 .setContentTitle("New Information")
                 .setContentText("New Information Related to cases at COVID_19")
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.ic_virus)
                 .setChannelId(channelID)
                 .setContentIntent(pendingIntent)
-                .build()
+                 .setAutoCancel(true)
+                 .setStyle(NotificationCompat.BigTextStyle().bigText("list of changed countries"))
+                 .build()
         } else {
              notification = Notification.Builder(this)
                 .setContentTitle("New Information")
                 .setContentText("New Information Related to cases at COVID_19")
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.ic_virus)
 
                 .setContentIntent(pendingIntent)
                 .build()

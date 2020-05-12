@@ -2,9 +2,9 @@ package com.example.covid_19_tracker
 
 import android.content.Context
 import android.util.Log
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.example.covid_19_tracker.model.CountryStatus
+import com.example.covid_19_tracker.model.NotificationService
 import com.example.covid_19_tracker.model.Repository
 import com.example.covid_19_tracker.network.RetrofitClient
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,6 +18,10 @@ class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters
         Repository(appContext)
     }
 
+    private val notificationService: NotificationService by lazy {
+        NotificationService(appContext)
+    }
+
     override fun doWork(): Result {
         Log.i("WORKER", "****new work****")
 
@@ -28,15 +32,19 @@ class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters
                 Log.i(TAG, "updating data: " + Date().toString())
                 it.forEach {newCountryStatus : CountryStatus ->
                     val oldCountryStatus: CountryStatus = repository.getLocalCountryStatusByCountryName(newCountryStatus.country)
+                    newCountryStatus.flagUrl = newCountryStatus.countryInfo!!.flag
                     if(oldCountryStatus != null) {
                         newCountryStatus.isSubscriber = oldCountryStatus.isSubscriber
+                        /*if(newCountryStatus.country == "Albania")
+                            newCountryStatus.todayCases = 10*/
                         if (oldCountryStatus.isSubscriber && isModifiedCountryStatus(newCountryStatus, oldCountryStatus)) {
                             //send notification(ex: egypt has updates)
+                            notificationService.sendNotification()
+                            repository.updateLocalCountryStatus(newCountryStatus)
                         }
+                    }else{
+                        repository.insertLocalCountryStatus(newCountryStatus)
                     }
-                    newCountryStatus.flagUrl = newCountryStatus.countryInfo!!.flag
-                    repository
-                        .insertLocalCountryStatus(newCountryStatus)
                 }
             },{
                 Log.e("ERROR", it.message)
@@ -52,16 +60,22 @@ class RequestAPIWorker(var appContext : Context, workerParams : WorkerParameters
                 Log.e("ERROR", it.message)
             })
 
+        /*val request = OneTimeWorkRequestBuilder<RequestAPIWorker>().build()
+        WorkManager.getInstance(appContext).enqueueUniqueWork(
+            "request",
+            ExistingWorkPolicy.REPLACE,
+            request
+        )*/
         return Result.success()
     }
 
     private fun isModifiedCountryStatus(newCountryStatus: CountryStatus, oldCountryStatus: CountryStatus): Boolean{
         return when{
-            newCountryStatus.todayCases != oldCountryStatus.todayCases -> false
-            newCountryStatus.deaths != oldCountryStatus.deaths -> false
-            newCountryStatus.recovered != oldCountryStatus.recovered -> false
-            newCountryStatus.active != oldCountryStatus.active -> false
-            else -> true
+            newCountryStatus.todayCases != oldCountryStatus.todayCases -> true
+            newCountryStatus.deaths != oldCountryStatus.deaths -> true
+            newCountryStatus.recovered != oldCountryStatus.recovered -> true
+            newCountryStatus.active != oldCountryStatus.active -> true
+            else -> false
         }
     }
 }

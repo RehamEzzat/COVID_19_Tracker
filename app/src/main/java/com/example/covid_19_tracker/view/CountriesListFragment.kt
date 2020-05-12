@@ -15,6 +15,7 @@ import com.example.covid_19_tracker.viewmodel.CountriesListViewModel
 import kotlinx.android.synthetic.main.fragment_countries_list.*
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.work.WorkInfo
 import com.example.covid_19_tracker.model.CountryStatus
 
 /**
@@ -28,6 +29,15 @@ class CountriesListFragment : Fragment() {
     var adapter: CountriesListAdapter? = null
     var layoutManager: RecyclerView.LayoutManager? = null
 
+    val countryStatusNotificationListner = object : CountryStatusNotificationListner {
+        override fun subscribeCountryStatus(countryStatus: CountryStatus) {
+            countriesListViewModel!!.updateCountryStatus(countryStatus)
+        }
+    }
+
+    interface CountryStatusNotificationListner{
+        fun subscribeCountryStatus(countryStatus: CountryStatus)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_countries_list, container, false)
@@ -41,7 +51,17 @@ class CountriesListFragment : Fragment() {
         countriesListViewModel = ViewModelProviders.of(this).get(CountriesListViewModel::class.java)
 
         view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout).setOnRefreshListener {
-            countriesListViewModel!!.updateCountriesStatus()
+            var isDone : Boolean = false
+            countriesListViewModel!!.updateCountriesStatus().observe(this, Observer<WorkInfo>{
+                Log.i(TAG, "Finish loading")
+
+                if(it != null && it.state == WorkInfo.State.ENQUEUED && !isDone){
+                    isDone = true
+                }else if(it != null && it.state == WorkInfo.State.ENQUEUED && isDone){
+                    view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout).isRefreshing = false
+                    isDone = false
+                }
+            })
         }
 
         return view
@@ -49,10 +69,17 @@ class CountriesListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        //countriesListViewModel!!.updateCountriesStatus() /******will be removed, just for testing******/
+
+        //countriesListViewModel!!.updateCountriesStatus()
+
         countriesListViewModel!!.getCountriesStatus().observe(this, Observer<List<CountryStatus>>{
-            Log.i(TAG, "herer onStart: "+it.size)
-            adapter = activity?.let { it1 -> CountriesListAdapter(it , it1) }
+
+            //Log.i(TAG, "herer onStart: "+it.size)
+            adapter = activity?.let { it1 ->
+                CountriesListAdapter(it,
+                    it1, countryStatusNotificationListner)
+            }
+
             recyclerView!!.adapter = adapter
         })
     }

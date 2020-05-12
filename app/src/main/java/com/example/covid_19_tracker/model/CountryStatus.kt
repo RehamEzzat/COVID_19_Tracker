@@ -15,9 +15,9 @@ data class CountryStatus (
     @PrimaryKey
     val country: String,
     @ColumnInfo(name = "cases")
-    val cases: Long,
+    var cases: Long,
     @ColumnInfo(name = "todayCases")
-    val todayCases: Long,
+    var todayCases: Long,
     @ColumnInfo(name = "deaths")
     val deaths: Long,
     @ColumnInfo(name = "todayDeaths")
